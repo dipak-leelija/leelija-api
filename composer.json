@@ -1,12 +1,12 @@
 {
-	"name": "shahbaz/php-rest-api",
+	"name": "dipak-leelija/leelija-api",
 	"description": "A Simple REST API in PHP",
 	"type": "project",
 	"license": "MIT",
 	"authors": [
 		{
-			"name": "Mohammad Shahbaz Alam",
-			"email": "shahbaz@magic.link"
+			"name": "Dipak Majumdar",
+			"email": "dipakmajumdar.leelija@gmail.com"
 		}
 	],
 	"require": {
