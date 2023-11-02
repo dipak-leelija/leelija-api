@@ -284,27 +284,78 @@ class Customer {
         return $this->notFoundResponse();
     }
 
+    // Delete the customer's related records from 'customer_address' and 'customer_info' tables
     $query = "DELETE FROM customer WHERE customer_id = ?";
-
+    $queryAddress = "DELETE FROM customer_address WHERE customer_id = ?";
+    $queryInfo = "DELETE FROM customer_info WHERE customer_id = ?";
+    
     try {
         $statement = $this->db->prepare($query);
         $statement->bind_param("s", $customer_id);
         $statement->execute();
         $rowDeleted = $statement->affected_rows;
 
-        if ($rowDeleted > 0) {
+        $statementAddress = $this->db->prepare($queryAddress);
+        $statementAddress->bind_param("s", $customer_id);
+        $statementAddress->execute();
+        $rowsDeletedAddress = $statementAddress->affected_rows;
+            
+        $statementInfo = $this->db->prepare($queryInfo);
+        $statementInfo->bind_param("s", $customer_id);
+        $statementInfo->execute();
+        $rowsDeletedInfo = $statementInfo->affected_rows;
+
+          // if ($rowDeleted > 0) {
+          //     $response['status_code_header'] = 'HTTP/1.1 200 OK';
+          //     $response['body'] = json_encode(array('message' => 'Customer Deleted!'));
+          // } else {
+          //     $response['status_code_header'] = 'HTTP/1.1 500 Internal Server Error';
+          //     $response['body'] = json_encode(array('error' => 'An error occurred while deleting the customer.'));
+          // }
+
+        if ($rowDeleted > 0 && $rowsDeletedAddress > 0 && $rowsDeletedInfo > 0) {
+
             $response['status_code_header'] = 'HTTP/1.1 200 OK';
-            $response['body'] = json_encode(array('message' => 'Customer Deleted!'));
+            $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer and related records deleted.'));
+
+        } elseif ($rowDeleted > 0 && $rowsDeletedAddress > 0 && $rowsDeletedInfo <= 0) {
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer and address are deleted, but related records not deleted.'));
+
+        } elseif ($rowDeleted > 0 && $rowsDeletedAddress <= 0 && $rowsDeletedInfo > 0) {
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer deleted, but address records not deleted.'));
+
+        }elseif ($rowDeleted <= 0 && $rowsDeletedAddress > 0 && $rowsDeletedInfo > 0) {
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer address and info deleted, but credentials not deleted.'));
+
+        } elseif ($rowDeleted <= 0 && $rowsDeletedAddress <= 0 && $rowsDeletedInfo > 0) {
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer info deleted, but related records not deleted.'));
+
+        } elseif ($rowDeleted > 0 && $rowsDeletedAddress <= 0 && $rowsDeletedInfo <= 0) {
+
+          $response['status_code_header'] = 'HTTP/1.1 200 OK';
+          $response['body'] = json_encode(array('status' => 0, 'message' => 'Customer deleted, but related records not deleted.'));
+
         } else {
             $response['status_code_header'] = 'HTTP/1.1 500 Internal Server Error';
-            $response['body'] = json_encode(array('error' => 'An error occurred while deleting the customer.'));
+            $response['body'] = json_encode(array('status' => 0, 'error' => 'An error occurred while deleting the customer or related records.'));
         }
-
-        return $response;
-    } catch (\Exception $e) {
-        exit($e->getMessage());
+        
+      } catch (\Exception $e) {
+          
+        $response['status_code_header'] = 'HTTP/1.1 500 Internal Server Error';
+        $response['body'] = json_encode(array('status' => 0, 'error' => $e->getMessage()));
+          
+      }
+      return $response;
     }
-  }
  
 
   //================== Get a customer detsils by customer_id ==================//
