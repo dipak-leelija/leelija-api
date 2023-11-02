@@ -115,25 +115,25 @@ class Customer {
     }
     
     if (empty($firstName)) {
-      $message = 'First name is empty!';
+      $errMsg = 'First name is empty!';
     }elseif (empty($lastName)) {
-      $message = 'Last name is empty!';
+      $errMsg = 'Last name is empty!';
     }elseif (empty($email)) {
-      $message = 'Email is empty!';
+      $errMsg = 'Email is empty!';
     }elseif (empty($password)) {
-      $message = 'Password is empty!';
+      $errMsg = 'Password is empty!';
     }elseif (empty($password_cnf)) {
-      $message = 'Confirm password is empty!';
+      $errMsg = 'Confirm password is empty!';
     }elseif (empty($country)) {
-      $message = 'Country is empty!';
+      $errMsg = 'Country is empty!';
     }elseif (empty($profession)) {
-      $message = 'Profession is empty!';
+      $errMsg = 'Profession is empty!';
     }elseif ($password != $password_cnf) {
-      $message = 'Confirm password not matched!';
+      $errMsg = 'Confirm password not matched!';
     }else {
 
-      if (! $this->userExists($email)) {
-        return $this->unprocessableEntityResponse();
+      if ($this->userExists($email)) {
+        return $this->unprocessableEntityResponse('Email Already Exists!');
       }
 
       $client   = 1;
@@ -193,7 +193,7 @@ class Customer {
 
     }
     $response['status_code_header'] = 'HTTP/1.1 500 Internal Server Error';
-    $response['body'] = json_encode(array('status' => 0, 'error' => $message));		
+    $response['body'] = json_encode(array('status' => 0, 'error' => $errMsg));		
     return $response;
 
 	}//eof
@@ -357,10 +357,10 @@ class Customer {
 
 
 
-  private function unprocessableEntityResponse(){
+  private function unprocessableEntityResponse($msg = 'Invalid input'){
 
     $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
-    $response['body'] = json_encode(['error' => 'Invalid input']);
+    $response['body'] = json_encode(['status' => 0, 'error' => $msg]);
     return $response;
   }
 
