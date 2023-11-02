@@ -83,3 +83,4 @@ Test the API endpoints using [Postman](https://www.postman.com/).
 ## License
 
 See [License](./LICENSE)
+https://dev.to/shahbaz17/build-a-simple-rest-api-in-php-2edl
