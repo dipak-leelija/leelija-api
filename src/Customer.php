@@ -95,7 +95,7 @@ class Customer {
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
     if (empty($input)) { //For form data send in Array Format
-      // print_r($_POST);
+      echo '<br>RAW';print_r($_POST);
       $firstName    = $this->db->real_escape_string(checkPOSTData('firstName'));
       $lastName     = $this->db->real_escape_string(checkPOSTData('lastName'));
       $email        = $this->db->real_escape_string(checkPOSTData('email'));
@@ -106,7 +106,7 @@ class Customer {
       $addedOn      = $this->db->real_escape_string(checkPOSTData('added_on'));
 
     }else { //For raw data send in JSON format
-      // $input = $input;
+      echo '<br>JSON';print_r($input);
       $firstName    = $this->db->real_escape_string(checkPOSTData('firstName'));
       $lastName     = $this->db->real_escape_string(checkPOSTData('lastName'));
       $email        = $this->db->real_escape_string(checkPOSTData('email'));

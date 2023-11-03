@@ -38,7 +38,7 @@ if (isset($uri[5])) {
 }
 
 echo $requestMethod = $_SERVER["REQUEST_METHOD"];
-
+exit;
 // pass the request method and post ID to the Post and process the HTTP request:
 $controller = new Customer($dbConnection, $requestMethod, $postId);
 $controller->processRequest();
