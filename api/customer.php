@@ -10,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
-print_r($uri);
+// print_r($uri);
 // customer
 
 // $data = json_decode(file_get_contents("php://input"), true);
@@ -37,7 +37,7 @@ if (isset($uri[5])) {
     $postId = (int) $uri[5];
 }
 
-$requestMethod = $_SERVER["REQUEST_METHOD"];
+echo $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 // pass the request method and post ID to the Post and process the HTTP request:
 $controller = new Customer($dbConnection, $requestMethod, $postId);

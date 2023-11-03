@@ -1,6 +1,9 @@
 <?php
 namespace Src;
 require_once "encryption.php";
+require_once "utility.php";
+
+
 class Customer {
   private $db;
   private $requestMethod;
@@ -92,26 +95,26 @@ class Customer {
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
     if (empty($input)) { //For form data send in Array Format
-      // $input = $_POST;
-      $firstName    = $this->db->real_escape_string($_POST['firstName']);
-      $lastName     = $this->db->real_escape_string($_POST['lastName']);
-      $email        = $this->db->real_escape_string($_POST['email']);
-      $password     = $this->db->real_escape_string($_POST['password']);
-      $password_cnf = $this->db->real_escape_string($_POST['password_cnf']);
-      $country      = $this->db->real_escape_string($_POST['country']);
-      $profession   = $this->db->real_escape_string($_POST['profession']);
-      $addedOn      = $this->db->real_escape_string($_POST['added_on']);
+      // print_r($_POST);
+      $firstName    = $this->db->real_escape_string(checkPOSTData('firstName'));
+      $lastName     = $this->db->real_escape_string(checkPOSTData('lastName'));
+      $email        = $this->db->real_escape_string(checkPOSTData('email'));
+      $password     = $this->db->real_escape_string(checkPOSTData('password'));
+      $password_cnf = $this->db->real_escape_string(checkPOSTData('password_cnf'));
+      $country      = $this->db->real_escape_string(checkPOSTData('country'));
+      $profession   = $this->db->real_escape_string(checkPOSTData('profession'));
+      $addedOn      = $this->db->real_escape_string(checkPOSTData('added_on'));
 
     }else { //For raw data send in JSON format
       // $input = $input;
-      $firstName    = $this->db->real_escape_string($input['firstName']);
-      $lastName     = $this->db->real_escape_string($input['lastName']);
-      $email        = $this->db->real_escape_string($input['email']);
-      $password     = $this->db->real_escape_string($input['password']);
-      $password_cnf = $this->db->real_escape_string($input['password_cnf']);
-      $country      = $this->db->real_escape_string($input['country']);
-      $profession   = $this->db->real_escape_string($input['profession']);
-      $addedOn      = $this->db->real_escape_string($_POST['added_on']);
+      $firstName    = $this->db->real_escape_string(checkPOSTData('firstName'));
+      $lastName     = $this->db->real_escape_string(checkPOSTData('lastName'));
+      $email        = $this->db->real_escape_string(checkPOSTData('email'));
+      $password     = $this->db->real_escape_string(checkPOSTData('password'));
+      $password_cnf = $this->db->real_escape_string(checkPOSTData('password_cnf'));
+      $country      = $this->db->real_escape_string(checkPOSTData('country'));
+      $profession   = $this->db->real_escape_string(checkPOSTData('profession'));
+      $addedOn      = $this->db->real_escape_string(checkPOSTData('added_on'));
     }
     
     if (empty($firstName)) {
