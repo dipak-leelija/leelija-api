@@ -13,4 +13,14 @@ function checkPOSTData($name){
     }
 }
 
+function checkRAWData($rawInput, $name){
+    if (isset($rawInput[$name])) {
+        echo $rawInput[$name];
+        return $rawInput[$name];
+    }else {
+        echo 'Not Set';
+        return '';
+    }
+}
+
 ?>

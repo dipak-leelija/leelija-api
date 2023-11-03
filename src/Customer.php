@@ -107,14 +107,14 @@ class Customer {
 
     }else { //For raw data send in JSON format
       // echo '<br>JSON';print_r($input);
-      $firstName    = $this->db->real_escape_string(checkPOSTData('firstName'));
-      $lastName     = $this->db->real_escape_string(checkPOSTData('lastName'));
-      $email        = $this->db->real_escape_string(checkPOSTData('email'));
-      $password     = $this->db->real_escape_string(checkPOSTData('password'));
-      $password_cnf = $this->db->real_escape_string(checkPOSTData('password_cnf'));
-      $country      = $this->db->real_escape_string(checkPOSTData('country'));
-      $profession   = $this->db->real_escape_string(checkPOSTData('profession'));
-      $addedOn      = $this->db->real_escape_string(checkPOSTData('added_on'));
+      $firstName    = $this->db->real_escape_string(checkRAWData($input, 'firstName'));
+      $lastName     = $this->db->real_escape_string(checkRAWData($input, 'lastName'));
+      $email        = $this->db->real_escape_string(checkRAWData($input, 'email'));
+      $password     = $this->db->real_escape_string(checkRAWData($input, 'password'));
+      $password_cnf = $this->db->real_escape_string(checkRAWData($input, 'password_cnf'));
+      $country      = $this->db->real_escape_string(checkRAWData($input, 'country'));
+      $profession   = $this->db->real_escape_string(checkRAWData($input, 'profession'));
+      $addedOn      = $this->db->real_escape_string(checkRAWData($input, 'added_on'));
     }
     
     if (empty($firstName)) {
